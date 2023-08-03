@@ -46,5 +46,11 @@ class MonthData {
         return finalSeries;
     }
 
-
+    int avarageSteps() {
+        int sum = 0;
+        for (int i = 0; i < days.length; i++) {
+            sum += days[i];
+        }
+        return sum/days.length;
+    }
 }

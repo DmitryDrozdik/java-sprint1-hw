@@ -25,7 +25,7 @@ class Main {
             {
                 // здесь будет логика команды 3
                 System.out.println("Выполняется команда 3");
-
+                stepTracker.printStatistic();
             }
             else if (i == 4)
             {

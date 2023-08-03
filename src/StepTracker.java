@@ -3,8 +3,8 @@ import java.util.Scanner;
 class StepTracker {
     Scanner scanner;
     MonthData[] monthToData = new MonthData[12];
-
     int goalByStepsPerDay = 10000;
+    Converter converter;
 
     StepTracker(Scanner scan) {
         scanner = scan;
@@ -96,4 +96,40 @@ class StepTracker {
         }
 
     }
+
+    void printStatistic() {
+        // ввод и проверка номера месяца
+
+        int month;
+
+        while(true) {
+            System.out.println("Введите номер месяца");
+            month = scanner.nextInt();
+
+            if (month < 1 || month > 12) {
+                System.out.println("Введено неверное значение месяца! Значение месяца должно быть от 1 до 12.");
+            }
+            else
+            {
+                month -= 1;
+                break;
+            }
+        }
+
+        MonthData monthData = monthToData[month]; // получение соответствующего месяца
+        monthData.printDaysAndStepsFromMonth(); // вывод общей статистики по дням
+        int monthSteps = monthData.sumStepsFromMonth();
+
+        System.out.println("Сумма шагов за месяц:" + monthSteps + "."); // вывод суммы шагов за месяц
+        System.out.println("Вывод максимальногщ пройденного количества шагов за месяц: " + monthData.maxSteps() + ".");        // вывод максимального пройденного количества шагов за месяц
+        System.out.println("Вывод среднего пройденного количества шагов за месяц:" + monthData.avarageSteps() + "."); // вывод среднего пройденного количества шагов за месяц
+        System.out.println("Вывод пройденной за месяц дистанции в км:" + converter.convertToKm(monthSteps) + "."); // вывод пройденной за месяц дистанции в км
+        System.out.println("Вывод количества сожжённых килокалорий за месяц" + converter.convertStepsToKilocalories(monthSteps) + ".");        // вывод количества сожжённых килокалорий за месяц
+        System.out.println("Лучшая серия за месяц: " + monthData.bestSeries(goalByStepsPerDay)); // вывод лучшей серии
+        System.out.println(); //дополнительный перенос строки
+    }
+
+
+
+
 }
