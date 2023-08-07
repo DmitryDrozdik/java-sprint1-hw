@@ -1,29 +1,35 @@
 class MonthData {
-    int[] days = new int[30];
+    final int[] days = new int[30];
 
     void printDaysAndStepsFromMonth() {
-        for (int i = 0; i < days.length; i++) {
+        for (int day = 0; day < days.length; day++) {
             // Вывод элементов массива в необходимом формате
-            System.out.println((i + 1) + " день: " + days[i]);
+            System.out.println((day + 1) + " день: " + days[day]);
         }
     }
     int sumStepsFromMonth() {
         int sumSteps = 0;
 
-        for (int i = 0; i < days.length; i++) {
+        for (int day = 0; day < days.length; day++) {
             // Вывод элементов массива в необходимом формате
-            sumSteps += days[i];
+            sumSteps += days[day];
         }
         return sumSteps;
     }
 
+    int max (int a, int b) {
+        if (a > b) {
+            return a;
+        }
+        else {
+            return b;
+        }
+    }
     int maxSteps() {
         int maxSteps = 0;
 
-        for (int i = 0; i < days.length; i++) {
-            if (days[i] > maxSteps) {
-                maxSteps = days[i];
-            }
+        for (int day = 0; day < days.length; day++) {
+            maxSteps = max(maxSteps, days[day]);
         }
         return maxSteps;
     }
@@ -31,15 +37,13 @@ class MonthData {
     int bestSeries(int goalByStepsPerDay) {
         int currentSeries = 0;
         int finalSeries = 0;
-        for (int i = 0; i < days.length; i++) {
+        for (int day = 0; day < days.length; day++) {
             // поиск максимальной серии
-            if (days[i] > goalByStepsPerDay) {
+            if (days[day] > goalByStepsPerDay) {
                 currentSeries++;
             }
             else {
-                if (currentSeries > finalSeries) {
-                    finalSeries = currentSeries;
-                }
+                finalSeries = max(finalSeries, currentSeries);
                 currentSeries = 0;
             }
         }
@@ -48,8 +52,8 @@ class MonthData {
 
     int avarageSteps() {
         int sum = 0;
-        for (int i = 0; i < days.length; i++) {
-            sum += days[i];
+        for (int day = 0; day < days.length; day++) {
+            sum += days[day];
         }
         return sum/days.length;
     }
