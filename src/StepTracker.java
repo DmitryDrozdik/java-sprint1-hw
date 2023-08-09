@@ -3,7 +3,7 @@ import java.util.Scanner;
 class StepTracker {
     Scanner scanner;
     MonthData[] monthToData = new MonthData[12];
-    int goalByStepsPerDay = 10000;
+    int goalByStepsPerDay = 10_000;
     Converter converter = new Converter();
 
     StepTracker(Scanner scan) {
@@ -14,7 +14,7 @@ class StepTracker {
         }
     }
 
-    int takeNum(String propmt, String errorMsg, int lower_bound, int upper_bound) {
+    int takeNum(boolean isIndex, String propmt, String errorMsg, int lower_bound, int upper_bound) {
         int result;
         while (true) {
             System.out.println(propmt);
@@ -23,7 +23,9 @@ class StepTracker {
             if (result < lower_bound || result > upper_bound) {
                 System.out.println(errorMsg);
             } else {
-                result -= 1;
+                if (isIndex) {
+                    result -= 1;
+                }
                 break;
             }
         }
@@ -32,61 +34,46 @@ class StepTracker {
 
     void addNewNumberStepsPerDay() {
         // ввод и проверка номера месяца
-        while (true) {
-            System.out.println("Введите месяц от 1 до 12 (включительно)");
-            int month = takeNum(
-                    "Введите номер месяца",
-                    "Неверный номер месяца, номер месяца должен быть от 1 до 12",
-                    1, 12);
+        System.out.println("Введите месяц от 1 до 12 (включительно)");
+        int month = takeNum(
+                true,
+                "Введите номер месяца",
+                "Неверный номер месяца, номер месяца должен быть от 1 до 12",
+                1, 12);
 
-            System.out.println("Введите день от 1 до 30 (включительно)");
-            // ввод и проверка дня
-            int day = takeNum("Введите номер дня",
-                    "Введено неверное значение дня! Значение дня должно быть от 1 до 30.",
-                    1, 30);
+        System.out.println("Введите день от 1 до 30 (включительно)");
+        // ввод и проверка дня
+        int day = takeNum(true,
+                "Введите номер дня",
+                "Введено неверное значение дня! Значение дня должно быть от 1 до 30.",
+                1, 30);
 
-            // ввод и проверка количества шагов
-            int step = takeNum("Введите количество шагов",
-                    "Введено неверное значение количества шагов! Значение количества шагов должно быть больше 0",
-                    1, 100_000);
+        // ввод и проверка количества шагов
+        int step = takeNum(false,
+                "Введите количество шагов",
+                "Введено неверное значение количества шагов! Значение количества шагов должно быть больше 0",
+                1, 100_000);
 
-            // Получение соответствующего объекта MonthData из массива
-            MonthData monthData = monthToData[month];
-            // Сохранение полученных данных
-            monthData.days[day] = step;
-        }
+        // Получение соответствующего объекта MonthData из массива
+        MonthData monthData = monthToData[month];
+        // Сохранение полученных данных
+        monthData.days[day] = step;
     }
 
     void changeStepGoal() {
-        int step;
-
-        while (true) {
-            System.out.println("Введите цель по количеству шагов:");
-            step = scanner.nextInt();
-
-            if (step < 1) {
-                System.out.println("Введено неверное значение количества шагов! Значение количества шагов должно быть больше 0");
-            } else {
-                break;
-            }
-        }
+        goalByStepsPerDay = takeNum(false,
+                "Введите цель по количеству шагов:",
+                "Введено неверное значение количества шагов! Значение количества шагов должно быть больше 0",
+                1, 100_000);
     }
 
     void printStatistic () {
         // ввод и проверка номера месяца
 
-        int month;
-        while (true) {
-            System.out.println("Введите номер месяца");
-            month = scanner.nextInt();
-
-            if (month < 1 || month > 12) {
-                System.out.println("Введено неверное значение месяца! Значение месяца должно быть от 1 до 12.");
-            } else {
-                month -= 1;
-                break;
-            }
-        }
+        int month = takeNum(true,
+                "Введите номер месяца",
+                "Введено неверное значение месяца! Значение месяца должно быть от 1 до 12.",
+                1, 12);
 
         MonthData monthData = monthToData[month]; // получение соответствующего месяца
         monthData.printDaysAndStepsFromMonth(); // вывод общей статистики по дням
