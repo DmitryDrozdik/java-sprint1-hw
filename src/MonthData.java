@@ -37,13 +37,16 @@ class MonthData {
     int bestSeries(int goalByStepsPerDay) {
         int currentSeries = 0;
         int finalSeries = 0;
+
         for (int day = 0; day < days.length; day++) {
             // поиск максимальной серии
             if (days[day] > goalByStepsPerDay) {
                 currentSeries++;
+                if (currentSeries > finalSeries) {
+                    finalSeries = currentSeries;
+                }
             }
             else {
-                finalSeries = max(finalSeries, currentSeries);
                 currentSeries = 0;
             }
         }
